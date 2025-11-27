@@ -1,10 +1,10 @@
 import '../../utils/utils.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
+class CustomBottomNavBarPro extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onTap;
 
-  const CustomBottomNavBar({
+  const CustomBottomNavBarPro({
     Key? key,
     required this.selectedIndex,
     required this.onTap,

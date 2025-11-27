@@ -1,3 +1,5 @@
+import 'package:homehub/presentation/widgets/custom_bottom_nav_pro.dart';
+
 import '../../utils/utils.dart';
 
 class HomeScreenPro extends StatefulWidget {
@@ -101,7 +103,7 @@ class _HomeScreenState extends State<HomeScreenPro> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: pages[_selectedIndex],
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: CustomBottomNavBarPro(
         selectedIndex: _selectedIndex,
         onTap: _onNavBarTap,
       ),
