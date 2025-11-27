@@ -1,0 +1,10 @@
+{
+  "@@locale": "fr",
+  "welcome": "Bienvenue",
+  "hello": "Bonjour!",
+  "signin": "Se connecter",
+  "signup": "S'inscrire",
+  "search": "Rechercher",
+  "verification": "Vérification",
+  "homescreen": "Écran d'accueil"
+}

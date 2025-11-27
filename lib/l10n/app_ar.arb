@@ -1,0 +1,10 @@
+{
+  "@@locale": "ar",
+  "welcome": "مرحبا",
+  "hello": "أهلا!",
+  "signin": "تسجيل الدخول",
+  "signup": "إنشاء حساب",
+  "search": "بحث",
+  "verification": "التحقق",
+  "homescreen": "الصفحة الرئيسية"
+}
