@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homehub/screens/portfoliouserview.dart';
 import '../models/professional.dart';
 import '../models/saved_item.dart';
+import '../l10n/app_localizations.dart'; // <-- use same localization import
 
 class JobCard extends StatefulWidget {
   final Professional professional;
@@ -15,6 +16,8 @@ class JobCard extends StatefulWidget {
 class _JobCardState extends State<JobCard> {
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Stack(
       children: [
         Card(
@@ -47,7 +50,7 @@ class _JobCardState extends State<JobCard> {
                         children: [
                           Text(
                             widget.professional.title,
-                            style: const TextStyle(
+                            style:  TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -55,15 +58,15 @@ class _JobCardState extends State<JobCard> {
                           Text(widget.professional.name),
                           Text(
                             widget.professional.price,
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Color(0xFFFF6700),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Row(
                             children: [
-                              const Icon(Icons.location_pin, size: 14),
-                              const SizedBox(width: 4),
+                               Icon(Icons.location_pin, size: 14),
+                               SizedBox(width: 4),
                               Text(widget.professional.location),
                             ],
                           ),
@@ -93,9 +96,9 @@ class _JobCardState extends State<JobCard> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text(
-                          "Details",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(
+                          loc.details, // <-- localized "Details"
+                          style:  TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -111,9 +114,9 @@ class _JobCardState extends State<JobCard> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text(
-                          "Contact",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(
+                          loc.contact, // <-- localized "Contact"
+                          style:  TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -133,7 +136,7 @@ class _JobCardState extends State<JobCard> {
               likedItems.any((l) => l.item == widget.professional)
                   ? Icons.favorite
                   : Icons.favorite_border,
-              color: Color(0xFFFF6700),
+              color: const Color(0xFFFF6700),
               size: 26,
             ),
             onPressed: () {

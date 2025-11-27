@@ -12,14 +12,12 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get signup => 'إنشاء حساب';
   @override
-  String get search => 'بحث';
+  String get search => '  بحث...';
   @override
   String get verification => 'التحقق';
   @override
   String get homescreen => 'الصفحة الرئيسية';
 
-  @override
-  String get services => 'الخدمات';
   @override
   String get username => 'اسم المستخدم';
 
@@ -52,4 +50,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeCleaning => 'تنظيف المنزل';
   @override
   String get claimOffer => 'استفد من العرض';
+  @override
+  String get details => "تفاصيل";
+  @override
+  String get contact => "اتصل";
+  @override
+  String get noFavoritesYet => "لا توجد عناصر مفضلة بعد!";
+  @override
+  String get services => "خدمات";
+  @override
+  String get products => "منتجات";
+  @override
+  String get agencies => "وكالات";
 }

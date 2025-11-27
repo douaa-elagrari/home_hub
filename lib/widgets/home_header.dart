@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart'; //
 
 class HomeHeader extends StatelessWidget {
   final TextEditingController searchController;
@@ -12,6 +13,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       height: 250,
@@ -34,7 +36,7 @@ class HomeHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.white,
@@ -49,14 +51,14 @@ class HomeHeader extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Welcome Back",
+                            loc.welcomeBack,
                             style: TextStyle(
                               color: Color(0xFFFF6700),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            "Username",
+                            loc.username,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -111,7 +113,7 @@ class HomeHeader extends StatelessWidget {
                 controller: searchController,
                 onChanged: onSearch,
                 decoration: InputDecoration(
-                  hintText: "Search...",
+                  hintText: loc.search,
                   prefixIcon: const Icon(
                     Icons.search_rounded,
                     color: Colors.grey,

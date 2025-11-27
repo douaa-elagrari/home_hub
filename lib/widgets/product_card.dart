@@ -85,7 +85,7 @@ class _ProductCardState extends State<ProductCard> {
                         Text(
                           widget.product.price,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 13,
                             color: Color(0xFFFF6700),
                             fontWeight: FontWeight.bold,
                           ),
@@ -94,7 +94,7 @@ class _ProductCardState extends State<ProductCard> {
                           icon: const Icon(
                             Icons.shopping_cart,
                             color: Color(0xFFFF6700),
-                            size: 25,
+                            size: 19,
                           ),
                           onPressed: () {
                             Navigator.push(

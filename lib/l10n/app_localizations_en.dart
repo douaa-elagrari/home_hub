@@ -12,14 +12,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get signup => 'Sign Up';
   @override
-  String get search => 'Search';
+  String get search => 'Search...';
   @override
   String get verification => 'Verification';
   @override
   String get homescreen => 'Home Screen';
 
-  @override
-  String get services => 'Services';
   @override
   String get username => 'Username';
   @override
@@ -53,4 +51,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeCleaning => 'Home Cleaning';
   @override
   String get claimOffer => 'Claim Offer';
+  @override
+  String get details => "Détails";
+  @override
+  String get contact => "Contacter";
+  @override
+  String get noFavoritesYet => "No favorites yet!";
+  @override
+  String get services => "Services";
+  @override
+  String get products => "Products";
+  @override
+  String get agencies => "Agencies";
 }

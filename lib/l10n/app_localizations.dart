@@ -10,7 +10,7 @@ import 'app_localizations_fr.dart' as fr;
 
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -64,10 +64,15 @@ abstract class AppLocalizations {
   String get featuredProperty;
   String get price;
   // OfferCard-specific
-String get testimonial;    // e.g., "testimonial"
-String get homeCleaning;   // e.g., "Home Cleaning"
-String get claimOffer;     // e.g., "Claim Offer"
+  String get testimonial; // e.g., "testimonial"
+  String get homeCleaning; // e.g., "Home Cleaning"
+  String get claimOffer; // e.g., "Claim Offer"
 
+  String get details;
+  String get contact;
+  String get noFavoritesYet;
+  String get products;
+  String get agencies;
 }
 
 // ---------------- LocalizationsDelegate ----------------

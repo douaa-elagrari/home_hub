@@ -120,6 +120,7 @@ import '../widgets/product_card.dart';
 import '../widgets/job_card.dart';
 import '../widgets/agency_card.dart';
 import '../widgets/header_top_row.dart';
+import '../l10n/app_localizations.dart';
 
 class LikesTab extends StatelessWidget {
   final List<SavedItem> likedItems;
@@ -133,6 +134,8 @@ class LikesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!; // <-- get localized strings
+
     return Column(
       children: [
         // Fixed Header
@@ -146,7 +149,12 @@ class LikesTab extends StatelessWidget {
         // Expanded list of cards
         Expanded(
           child: likedItems.isEmpty
-              ? const Center(child: Text("No favorites yet!"))
+              ? Center(
+                  child: Text(
+                    loc.noFavoritesYet, // <-- localized "No favorites yet!"
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                )
               : ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: likedItems.length,

@@ -15,6 +15,7 @@ import 'myprofile.dart';
 import '../widgets/likes_tab.dart';
 import '../widgets/home_header.dart';
 import '../widgets/custom_bottom_nav_pro.dart';
+import '../l10n/app_localizations.dart';
 
 class HomeScreenPro extends StatefulWidget {
   const HomeScreenPro({super.key});
@@ -72,15 +73,26 @@ class _HomeScreenState extends State<HomeScreenPro> {
 
   // ----------- CATEGORY SWITCH -----------
   void _setCategory(String category) {
-    selectedCategory = category;
     selectedSubcategory = null;
 
-    if (category == "Products") {
+    if (category == "Products" ||
+        category == "Produits" ||
+        category == "منتجات") {
+      selectedCategory = "Products";
       filteredList = products;
-    } else if (category == "Services") {
+    } else if (category == "Services" ||
+        category == "خدمات" ||
+        category == "Services") {
+      selectedCategory = "Services";
       filteredList = services;
-    } else {
+    } else if (category == "Agencies" ||
+        category == "وكالات" ||
+        category == "Agences") {
+      selectedCategory = "Agencies";
       filteredList = agencies;
+    } else {
+      selectedCategory = "Services";
+      filteredList = services;
     }
 
     setState(() {});
@@ -96,9 +108,9 @@ class _HomeScreenState extends State<HomeScreenPro> {
   List<Widget> get pages => [
     HomScreen(),
     _buildHomeTab(),
-    LikesTab(likedItems: likedItems,username: 'Douaa Elagrari'),
+    LikesTab(likedItems: likedItems, username: 'Douaa Elagrari'),
     DocumentationScreen(),
-    Myproprofile()
+    Myproprofile(),
   ];
 
   @override
@@ -115,6 +127,7 @@ class _HomeScreenState extends State<HomeScreenPro> {
 
   // --------HOME TAB --------
   Widget _buildHomeTab() {
+    final loc = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -129,11 +142,11 @@ class _HomeScreenState extends State<HomeScreenPro> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _categoryBtn("Services"),
+              _categoryBtn(loc.services),
               const SizedBox(width: 12),
-              _categoryBtn("Products"),
+              _categoryBtn(loc.products),
               const SizedBox(width: 12),
-              _categoryBtn("Agencies"),
+              _categoryBtn(loc.agencies),
             ],
           ),
 
@@ -213,6 +226,3 @@ class _HomeScreenState extends State<HomeScreenPro> {
     );
   }
 }
-
-
-

@@ -13,6 +13,7 @@ import 'myprofile.dart';
 import '../widgets/likes_tab.dart';
 import '../widgets/home_header.dart';
 import '../widgets/custom_bottom_nav.dart';
+import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -69,17 +70,32 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ----------- CATEGORY SWITCH -----------
-  void _setCategory(String category) {
-    selectedCategory = category;
-    selectedSubcategory = null;
+  void _setCategory(String categoryText) {
+    // Map localized/display text to internal key
+    String categoryKey;
 
-    if (category == "Products") {
+    if (categoryText == "Products" ||
+        categoryText == "Produits" ||
+        categoryText == "منتجات") {
+      categoryKey = "Products";
       filteredList = products;
-    } else if (category == "Services") {
+    } else if (categoryText == "Services" ||
+        categoryText == "خدمات" ||
+        categoryText == "Services") {
+      categoryKey = "Services";
       filteredList = services;
-    } else {
+    } else if (categoryText == "Agencies" ||
+        categoryText == "وكالات" ||
+        categoryText == "Agences") {
+      categoryKey = "Agencies";
       filteredList = agencies;
+    } else {
+      categoryKey = "Services";
+      filteredList = services;
     }
+
+    selectedCategory = categoryKey;
+    selectedSubcategory = null;
 
     setState(() {});
   }
@@ -113,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // --------HOME TAB --------
   Widget _buildHomeTab() {
+    final loc = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -127,11 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _categoryBtn("Services"),
+              _categoryBtn(loc.services),
               const SizedBox(width: 12),
-              _categoryBtn("Products"),
+              _categoryBtn(loc.products),
               const SizedBox(width: 12),
-              _categoryBtn("Agencies"),
+              _categoryBtn(loc.agencies),
             ],
           ),
 
@@ -194,11 +211,11 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () => _setCategory(text),
       style: OutlinedButton.styleFrom(
         side: BorderSide(
-          color: selected ? const Color(0xFF004E98) : Colors.grey,
+          color: selected ? Color(0xFF004E98) : Colors.grey,
           width: 2,
         ),
-        backgroundColor: const Color(0xFFE2E2E2),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        backgroundColor: Color(0xFFE2E2E2),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: Text(
