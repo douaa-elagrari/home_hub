@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'screens/signup_pro.dart';
-import 'screens/search_screen_pro.dart';
-import 'screens/signin_pro.dart';
-import 'screens/signup.dart';
-import 'screens/search_screen.dart';
-import 'screens/splashscreen.dart';
-import 'screens/firstpage.dart';
-import 'screens/secondpage.dart';
-import 'screens/thirdpage.dart';
-import 'screens/signin.dart';
-import 'screens/verification.dart';
-import 'screens/welcome.dart';
+import 'presentation/screens/signup_pro.dart';
+import 'presentation/screens/search_screen_pro.dart';
+import 'presentation/screens/signin_pro.dart';
+import 'presentation/screens/signup.dart';
+import 'presentation/screens/search_screen.dart';
+import 'presentation/screens/splashscreen.dart';
+import 'presentation/screens/firstpage.dart';
+import 'presentation/screens/secondpage.dart';
+import 'presentation/screens/thirdpage.dart';
+import 'presentation/screens/signin.dart';
+import 'presentation/screens/verification.dart';
+import 'presentation/screens/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations_ar.dart';
 import 'l10n/app_localizations_en.dart';
@@ -24,7 +24,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
