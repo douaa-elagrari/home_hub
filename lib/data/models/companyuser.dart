@@ -1,9 +1,9 @@
 import 'Baseuser.dart';
 
-class CompanyUser extends UserModel {
+class CompanyUserModel extends UserModel {
   final String companyName;
 
-  CompanyUser({
+  CompanyUserModel({
     int? id,
     required String username,
     required String email,

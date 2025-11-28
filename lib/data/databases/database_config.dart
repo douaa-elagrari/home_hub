@@ -17,7 +17,7 @@ class DatabaseConfig {
   static const String userPassword = "password";
   static const String fullname = "fname";
   static const String birthdate = "bd";
-  static const String address = "add";
+  static const String address = "addr";
   static const String companyName = "cname";
 
   // ==========products table =============
@@ -40,11 +40,11 @@ class DatabaseConfig {
       $userId INTEGER PRIMARY KEY AUTOINCREMENT,
       $userType TEXT,
       $userName TEXT UNIQUE,
-      $userEmail INTEGER NOT NULL UNIQUE,
-      $userPassword TEXT NOT NULL ,
+      $userEmail TEXT NOT NULL UNIQUE,
+      $userPassword TEXT NOT NULL,
       $fullname TEXT,
-      $birthdate TEXT ,
-      $address TEXT
+      $birthdate TEXT,
+      $address TEXT,
       $companyName TEXT
     )
 

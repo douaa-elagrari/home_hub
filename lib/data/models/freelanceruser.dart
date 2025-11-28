@@ -1,11 +1,11 @@
 import 'Baseuser.dart';
 
-class FreelancerUser extends UserModel {
+class FreelancerUserModel extends UserModel {
   final String fullName;
   final String birthDate;
   final String address;
 
-  FreelancerUser({
+  FreelancerUserModel({
     int? id,
     required String username,
     required String email,
