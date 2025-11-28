@@ -1,4 +1,5 @@
-import '../../utils/utils.dart';
+import 'package:flutter/material.dart';
+import '../widgets/buildtextfeild.dart';
 
 class BuyCard extends StatefulWidget {
   final String itemprice;
@@ -9,164 +10,106 @@ class BuyCard extends StatefulWidget {
 }
 
 class _BuyCardState extends State<BuyCard> {
-  final _scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double titleFontSize = screenWidth * 0.055;
-    double labelFontSize = screenWidth * 0.035;
-
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      resizeToAvoidBottomInset: true, // avoids overflow when keyboard opens
-      body: SafeArea(
-        child: Theme(
-          data: Theme.of(context).copyWith(
-            primaryColor: const Color(0xFF004E98), // blue focus color
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Card(
+          color: Colors.white,
+          elevation: 12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            padding: const EdgeInsets.all(16),
-            child: Card(
-              elevation: 12,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Purchase Details",
-                        style: TextStyle(
-                          color: const Color(0xFF004E98),
-                          fontWeight: FontWeight.bold,
-                          fontSize: titleFontSize,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Full Name
-                    Text(
-                      "Add your full name",
+          margin: const EdgeInsets.all(20),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      "Purchase Details",
                       style: TextStyle(
-                        fontSize: labelFontSize,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    buildTextField(
-                      context,
-                      "Full Name",
-                      "Enter your name",
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Phone Number
-                    Text(
-                      "Insert your phone number",
-                      style: TextStyle(
-                        fontSize: labelFontSize,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    buildTextField(
-                      context,
-                      "Phone Number",
-                      "Enter your phone number",
-                      keyboardType: TextInputType.phone,
-                      prefixIcon: const Icon(Icons.phone),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Address
-                    Text(
-                      "Insert your address",
-                      style: TextStyle(
-                        fontSize: labelFontSize,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    buildTextField(
-                      context,
-                      "Address",
-                      "Enter your address",
-                      prefixIcon: const Icon(Icons.home),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Quantity
-                    Text(
-                      "Add the wanted quantity",
-                      style: TextStyle(
-                        fontSize: labelFontSize,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    buildTextField(
-                      context,
-                      "Quantity",
-                      "Enter quantity",
-                      keyboardType: TextInputType.number,
-                      prefixIcon: const Icon(Icons.confirmation_number),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Total Price
-                    Text(
-                      "Total Price",
-                      style: TextStyle(
-                        color: const Color(0xFF004E98),
+                        color: Color(0xFF004E98),
                         fontWeight: FontWeight.bold,
-                        fontSize: labelFontSize + 2,
+                        fontSize: 20,
                       ),
                     ),
-                    Center(
-                      child: Text(
-                        "${widget.itemprice} DA",
-                        style: TextStyle(
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Add your full name",
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 8),
+                  buildTextField("Full Name", "Enter your name"),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Insert your phone number",
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 8),
+                  buildTextField("Phone Number", "Enter your phone number"),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Insert your address",
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 8),
+                  buildTextField("Address", "Enter your address"),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Add the wanted quantity",
+                    style: TextStyle(fontSize: 14, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 8),
+                  buildTextField("Quantity", "Enter quantity"),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Total Price",
+                    style: TextStyle(
+                      color: Color(0xFF004E98),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      "${widget.itemprice} DA",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        color: Color(0xFFFF6700),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF004E98),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.06,
-                          color: const Color(0xFFFF6700),
+                          fontSize: 16,
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Submit Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF004E98),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

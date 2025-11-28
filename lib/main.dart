@@ -16,6 +16,16 @@ import 'l10n/app_localizations_ar.dart';
 import 'l10n/app_localizations_en.dart';
 import 'l10n/app_localizations_fr.dart';
 import 'l10n/app_localizations.dart';
+import 'presentation/screens/addnewdocumentation.dart';
+import 'presentation/screens/addnewitem.dart';
+import 'presentation/screens/addnewservice.dart';
+import 'presentation/screens/buyforms.dart';
+import 'presentation/screens/portfolioprojectdesc.dart';
+import 'presentation/screens/descriptionscreens.dart';
+import 'presentation/screens/ratingpage.dart';
+import 'presentation/screens/editprofile.dart';
+import 'presentation/screens/loginpage.dart';
+import 'presentation/screens/passtoproaccount.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,6 +87,17 @@ class MyApp extends StatelessWidget {
             );
         }
       },
+      // for testing specific pages, for the one doing the linking
+      //home: Adddocumentationpage(),
+      // home: Addnewitempage(),
+      // home: Addnewservicepage(),
+      // home: Buyformspage(),
+      // home: ProjectLayout(projectId: 1),
+      // home: ProductLayout(),
+      //home: Addratingpage(),
+      // home: Editprofilepage(),
+      // home: Loginpage(),
+      //home: Passetoproaccountpage(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import '../../utils/utils.dart';
+import 'package:flutter/material.dart';
 
 class Cardd1 extends StatefulWidget {
   const Cardd1({super.key});

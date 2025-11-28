@@ -1,4 +1,4 @@
-import '../../data/product.dart';
+import '../../data/dummy/product.dart';
 import '../../utils/utils.dart';
 
 class ProductLayout extends StatefulWidget {
