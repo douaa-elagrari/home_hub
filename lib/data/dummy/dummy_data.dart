@@ -1,6 +1,6 @@
-import 'models/professional.dart';
-import 'models/product.dart';
-import 'models/agency.dart';
+import '../models/professional.dart';
+import '../models/product.dart';
+import '../models/agency.dart';
 
 List<Professional> services = [
   Professional(

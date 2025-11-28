@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/dummy_data.dart';
+import '../../data/dummy/dummy_data.dart';
 
 class HomeSearchCubit extends Cubit<List<dynamic>> {
   String selectedCategory = "Services";

@@ -7,7 +7,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export '../logic/cubit/signup_pro_cubit.dart';
 export '../presentation/screens/homescreen.dart';
 export '../presentation/screens/myprofile.dart';
-export '../data/dummy_data.dart';
+export '../data/dummy/dummy_data.dart';
 export '../data/models/professional.dart';
 export '../data/models/agency.dart';
 export '../presentation/widgets/job_card.dart';
