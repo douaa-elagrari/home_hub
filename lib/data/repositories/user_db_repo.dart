@@ -1,60 +1,81 @@
+import 'package:sqflite/sqflite.dart';
+import '../databases/dbhelper.dart';
 import '../models/Baseuser.dart';
 import '../models/companyuser.dart';
 import '../models/freelanceruser.dart';
 import '../models/normaluser.dart';
-import '../databases/dbhelper.dart';
 import 'user_repo.dart';
+import '../models/results.dart';
 
-// class UserDBRepo extends UserRepo {
-//   @override
-//   Future<bool> register(UserModel user) async {
-//     final db = await DBHelper.getDatabase();
-//     await db.insert(
-//       "users",
-//       user.toMap(),
-//       conflictAlgorithm: ConflictAlgorithm.replace,
-//     );
-//     return true;
-//   }
+class UserDBRepo implements UserRepo {
+  static const String table = "users";
 
-//   @override
-//   Future<UserModel?> login(String username, String password) async {
-//     final db = await DBHelper.getDatabase();
-//     final result = await db.query(
-//       "users",
-//       where: "username = ? AND password = ?",
-//       whereArgs: [username, password],
-//     );
+  Future<Database> _db() async => await DBHelper.getDatabase();
+  //
+  @override
+  Future<ReturnResult> signup(UserModel user) async {
+    try {
+      final db = await _db();
+      await db.insert(table, user.toMap());
+      return ReturnResult(state: false, message: 'signed in successfully ');
+    } catch (e) {
+      print("Register error: $e");
+      return ReturnResult(state: false, message: 'Cannot sign up');
+    }
+  }
 
-//     if (result.isEmpty) return null;
+  @override
+  Future<UserModel?> login(String email, String password) async {
+    final db = await _db();
 
-//     final row = result.first;
+    final result = await db.query(
+      table,
+      where: "userEmail = ? AND userPassword = ?",
+      whereArgs: [email, password],
+    );
 
-//     switch (row["userType"]) {
-//       case "normal":
-//         return NormalUser(
-//           id: row["id"],
-//           username: row["username"],
-//           email: row["email"],
-//           password: row["password"],
-//           fullName: row["fullName"],
-//           birthDate: row["birthDate"],
-//           address: row["address"],
-//         );
+    if (result.isEmpty) return null;
 
-//       case "company":
-//         return CompanyUser(
-//           id: row["id"],
-//           username: row["username"],
-//           email: row["email"],
-//           password: row["password"],
-//           companyName: row["companyName"],
-//         );
+    return _mapToUser(result.first);
+  }
 
-//       case "freelancer":
-//         return FreelancerUser{
-//     }
+  UserModel _mapToUser(Map<String, dynamic> data) {
+    final type = data["userType"];
 
-//     return null;
-//   }
-// }
+    switch (type) {
+      case "company":
+        return CompanyUserModel(
+          id: data["userId"],
+          username: data["userName"],
+          email: data["userEmail"],
+          password: data["userPassword"],
+          companyName: data["companyName"] ?? "",
+        );
+
+      case "freelancer":
+        return FreelancerUserModel(
+          id: data["userId"],
+          username: data["userName"],
+          email: data["userEmail"],
+          password: data["userPassword"],
+          fullName: data["fullname"] ?? "",
+          birthDate: data["birthdate"] ?? "",
+          address: data["address"] ?? "",
+        );
+
+      case "normal":
+        return NormalUserModel(
+          id: data["userId"],
+          username: data["userName"],
+          email: data["userEmail"],
+          password: data["userPassword"],
+          fullName: data["fullname"] ?? "",
+          birthDate: data["birthdate"] ?? "",
+          address: data["address"] ?? "",
+        );
+
+      default:
+        throw Exception("Unknown user type: $type");
+    }
+  }
+}

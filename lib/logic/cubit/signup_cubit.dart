@@ -31,15 +31,14 @@ class SignupState {
     String? confirmPassword,
     bool? submitted,
     String? error,
-  }) =>
-      SignupState(
-        fullName: fullName ?? this.fullName,
-        username: username ?? this.username,
-        password: password ?? this.password,
-        confirmPassword: confirmPassword ?? this.confirmPassword,
-        submitted: submitted ?? this.submitted,
-        error: error ?? this.error,
-      );
+  }) => SignupState(
+    fullName: fullName ?? this.fullName,
+    username: username ?? this.username,
+    password: password ?? this.password,
+    confirmPassword: confirmPassword ?? this.confirmPassword,
+    submitted: submitted ?? this.submitted,
+    error: error ?? this.error,
+  );
 }
 
 class SignupCubit extends Cubit<SignupState> {
@@ -48,7 +47,8 @@ class SignupCubit extends Cubit<SignupState> {
   void fullNameChanged(String value) => emit(state.copyWith(fullName: value));
   void usernameChanged(String value) => emit(state.copyWith(username: value));
   void passwordChanged(String value) => emit(state.copyWith(password: value));
-  void confirmPasswordChanged(String value) => emit(state.copyWith(confirmPassword: value));
+  void confirmPasswordChanged(String value) =>
+      emit(state.copyWith(confirmPassword: value));
 
   Future<void> submit() async {
     if (!state.isValid) {
