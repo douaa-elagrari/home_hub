@@ -30,7 +30,7 @@ class _MyprofileState extends State<Myprofile> {
       case 2:
         break;
       case 3:
-        Navigator.pushNamed(context, '/signin');
+        Navigator.pushNamed(context, '/welcome');
         break;
     }
   }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:homehub/data/databases/db_helper.dart';
 import '../../utils/utils.dart';
 
 class Signin extends StatefulWidget {
@@ -10,8 +12,40 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _loading = false;
+
+  void _showSnackBar(String message, Color bgColor, {int durationSec = 2}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: bgColor,
+        duration: Duration(seconds: durationSec),
+      ),
+    );
+  }
+
+  void _signIn() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _loading = true);
+
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    final user = await DBHelper().getUser(username, password);
+
+    setState(() => _loading = false);
+
+    if (user != null) {
+      _showSnackBar('Logged in successfully!', Colors.green, durationSec: 1);
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacementNamed(context, '/homescreen');
+      });
+    } else {
+      _showSnackBar('Invalid username or password', Colors.red, durationSec: 2);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +55,7 @@ class _SigninState extends State<Signin> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 400, // max width for larger screens
-            ),
+            constraints: const BoxConstraints(maxWidth: 400),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
               margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -49,7 +81,7 @@ class _SigninState extends State<Signin> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: Text(
                         'Sign In',
                         style: TextStyle(
@@ -60,49 +92,18 @@ class _SigninState extends State<Signin> {
                       ),
                     ),
                     const SizedBox(height: 25),
-
-                    // Username
                     TextFormField(
                       controller: _usernameController,
                       decoration: InputDecoration(
-                        labelText: 'User Name',
+                        labelText: 'Username',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter your username';
-                        }
-                        return null;
-                      },
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Enter username' : null,
                     ),
                     const SizedBox(height: 15),
-
-                    // Phone number
-                    TextFormField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: 'Phone Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter your phone number';
-                        } else if (!RegExp(
-                          r'^(05|06|07)[0-9]{8}$',
-                        ).hasMatch(value.trim())) {
-                          return 'Enter a valid 10-digit phone number';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Password
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
@@ -112,18 +113,10 @@ class _SigninState extends State<Signin> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.trim().length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Enter password' : null,
                     ),
-                    const SizedBox(height: 10),
-
-                    // Forgot password
+                    const SizedBox(height: 20),
                     Center(
                       child: TextButton(
                         onPressed: () {
@@ -138,34 +131,25 @@ class _SigninState extends State<Signin> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
-
                     Center(
-                      child: Mybutton(
-                        text: 'Sign In',
-                        bgcolor: Color(0xFF004E98),
-                        fgcolor: Colors.white,
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/homescreen');
-                          }
-                        },
-                      ),
+                      child: _loading
+                          ? const CircularProgressIndicator()
+                          : Mybutton(
+                              text: 'Sign In',
+                              bgcolor: const Color(0xFF004E98),
+                              fgcolor: Colors.white,
+                              onPressed: _signIn,
+                            ),
                     ),
-
                     const SizedBox(height: 20),
-
-                    // Sign up prompt
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account? "),
+                        const Text("Don't have an account? "),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/signup');
-                          },
-                          child: Text(
+                          onTap: () => Navigator.pushNamed(context, '/signup'),
+                          child: const Text(
                             'Sign Up',
                             style: TextStyle(
                               color: Color(0xFF004E98),

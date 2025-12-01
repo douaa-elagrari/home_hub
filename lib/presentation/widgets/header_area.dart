@@ -1,36 +1,36 @@
-import '../../utils/utils.dart';
+import 'package:flutter/material.dart';
 
 class HeaderArea extends StatelessWidget {
-  const HeaderArea({Key? key}) : super(key: key);
+  final String username; 
+
+  const HeaderArea({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 30),
       width: double.infinity,
-      height: 110, // Adjust height for your simplified header
+      height: 110,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Removed back button
-
             // Welcome & photo
             Row(
-              children: const [
-                CircleAvatar(
+              children: [
+                const CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.white,
                   child: Icon(Icons.person, size: 35, color: Colors.grey),
                 ),
-                SizedBox(width: 14),
+                const SizedBox(width: 14),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Welcome Back',
                       style: TextStyle(
                         color: Color(0xFFFF6700),
@@ -38,8 +38,8 @@ class HeaderArea extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Username',
-                      style: TextStyle(color: Colors.black, fontSize: 12),
+                      username, // Display real username
+                      style: const TextStyle(color: Colors.black, fontSize: 12),
                     ),
                   ],
                 ),

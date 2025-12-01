@@ -79,7 +79,7 @@ class _MyproprofileState extends State<Myproprofile> {
                         ),
                       );
                     } else if (sentences[i] == 'Logout') {
-                      Navigator.pushNamed(context, '/signin_pro');
+                      Navigator.pushNamed(context, '/welcome');
                     }
                   },
                   child: Container(
