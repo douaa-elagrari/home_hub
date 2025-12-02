@@ -55,8 +55,8 @@ class SignupForm extends StatelessWidget {
                           'Registered successfully',
                           style: const TextStyle(color: Colors.white),
                         ),
-                        backgroundColor: Colors.green, 
-                        duration: const Duration(seconds: 2), 
+                        backgroundColor: Colors.green,
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                     Navigator.pushReplacementNamed(context, '/homescreen');
@@ -87,14 +87,22 @@ class SignupForm extends StatelessWidget {
 
                         TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Full Name',
+                            labelText: 'Email',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
-                          onChanged: cubit.fullNameChanged,
-                          validator: (v) =>
-                              v == null || v.isEmpty ? 'Enter full name' : null,
+                          onChanged: cubit.emailChanged,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Enter email';
+                            } else if (!RegExp(
+                              r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
+                            ).hasMatch(value.trim())) {
+                              return 'Invalid email';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 15),
 

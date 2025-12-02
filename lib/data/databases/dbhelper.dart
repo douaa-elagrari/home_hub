@@ -13,8 +13,9 @@ class DBHelper {
     _database = await openDatabase(
       join(await getDatabasesPath(), _dbName),
       version: _dbVersion,
-      onCreate: (db, version) {
-        db.execute(DatabaseConfig.createTables);
+      onCreate: (db, version) async {
+        await db.execute(DatabaseConfig.createUsersTable);
+        await db.execute(DatabaseConfig.createProductsTable);
       },
     );
 

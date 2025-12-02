@@ -24,15 +24,16 @@ class NormalUserModel extends UserModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "userType": userType,
-      "username": username,
-      "email": email,
-      "password": password,
-      "fullName": fullName,
-      "birthDate": birthDate,
-      "address": address,
-      "companyName": null,
+      // Use the EXACT column names from your DatabaseConfig!
+      // Don't include "id" - it's auto-increment
+      "type": userType, // Changed from "userType" to "type"
+      "name": username, // Changed from "username" to "name"
+      "email": email, // ✓ This one is correct
+      "password": password, // ✓ This one is correct
+      "fname": fullName, // Changed from "fullName" to "fname"
+      "bd": birthDate, // Changed from "birthDate" to "bd"
+      "addr": address, // Changed from "address" to "addr"
+      // Don't include "cname" (companyName) for normal users
     };
   }
 }

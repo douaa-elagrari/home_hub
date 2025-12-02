@@ -2,14 +2,10 @@ import 'package:flutter/rendering.dart';
 
 class DatabaseConfig {
   static const String databaseName = "users.db";
-
   static const int databaseVersion = 1;
 
-  // ===== TABLE NAMES =====
-
-  // ====== users table ======
+  // Users table
   static const String users = "users";
-
   static const String userId = "id";
   static const String userType = "type";
   static const String userName = "name";
@@ -19,24 +15,24 @@ class DatabaseConfig {
   static const String birthdate = "bd";
   static const String address = "addr";
   static const String companyName = "cname";
+  static const String phone = "phone"; // ⭐ ADDED
+  static const String vatNumber = "vat"; // ⭐ ADDED
 
-  // ==========products table =============
+  // Products table
   static const String products = "products";
-
   static const String productId = "pid";
   static const String productName = "pname";
   static const String productDescription = "pdesc";
-  static const double productPrice = 0.0;
+  static const String productPrice = "pprice";
   static const String productCategory = "pcat";
   static const String productImageId = "pimgid";
-  static const double productRating = 0.0;
+  static const String productRating = "prating";
   static const String productColors = "pcolors";
 
-  // ===== SQL CREATE TABLE STATEMENT =====
-  // This is executed when database is created for first time
-  static const String createTables =
+  // SQL CREATE TABLE statements
+  static const String createUsersTable =
       '''
-    CREATE TABLE $users (
+    CREATE TABLE IF NOT EXISTS $users (
       $userId INTEGER PRIMARY KEY AUTOINCREMENT,
       $userType TEXT,
       $userName TEXT UNIQUE,
@@ -45,10 +41,15 @@ class DatabaseConfig {
       $fullname TEXT,
       $birthdate TEXT,
       $address TEXT,
-      $companyName TEXT
+      $companyName TEXT,
+      $phone TEXT,
+      $vatNumber TEXT
     )
+  ''';
 
-      CREATE TABLE $products(
+  static const String createProductsTable =
+      '''
+    CREATE TABLE IF NOT EXISTS $products (
       $productId INTEGER PRIMARY KEY AUTOINCREMENT,
       $productName TEXT,
       $productDescription TEXT,
@@ -56,8 +57,7 @@ class DatabaseConfig {
       $productCategory TEXT,
       $productImageId TEXT,
       $productRating REAL,
-      $productColors TEXT,
-      )
-
+      $productColors TEXT
+    )
   ''';
 }

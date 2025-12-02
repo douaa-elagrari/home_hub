@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:homehub/data/databases/db_helper.dart';
+import '../../../data/models/normaluser.dart';
+import '../../../data/repositories/user_db_repo.dart';
+import '../../../data/repositories/user_repo.dart';
 
 class SignupState {
-  final String fullName;
+  final String email;
   final String username;
   final String password;
   final String confirmPassword;
@@ -10,7 +12,7 @@ class SignupState {
   final String error;
 
   SignupState({
-    this.fullName = '',
+    this.email = '',
     this.username = '',
     this.password = '',
     this.confirmPassword = '',
@@ -19,20 +21,20 @@ class SignupState {
   });
 
   bool get isValid =>
-      fullName.isNotEmpty &&
+      email.isNotEmpty &&
       username.isNotEmpty &&
       password.isNotEmpty &&
       password == confirmPassword;
 
   SignupState copyWith({
-    String? fullName,
+    String? email,
     String? username,
     String? password,
     String? confirmPassword,
     bool? submitted,
     String? error,
   }) => SignupState(
-    fullName: fullName ?? this.fullName,
+    email: email ?? this.email,
     username: username ?? this.username,
     password: password ?? this.password,
     confirmPassword: confirmPassword ?? this.confirmPassword,
@@ -44,33 +46,50 @@ class SignupState {
 class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupState());
 
-  void fullNameChanged(String value) => emit(state.copyWith(fullName: value));
-  void usernameChanged(String value) => emit(state.copyWith(username: value));
-  void passwordChanged(String value) => emit(state.copyWith(password: value));
-  void confirmPasswordChanged(String value) =>
-      emit(state.copyWith(confirmPassword: value));
+  final UserDBRepo _repo = UserRepo.getInstance() as UserDBRepo;
+
+  void emailChanged(String v) =>
+      emit(state.copyWith(email: v, error: '', submitted: false));
+
+  void usernameChanged(String v) =>
+      emit(state.copyWith(username: v, error: '', submitted: false));
+
+  void passwordChanged(String v) =>
+      emit(state.copyWith(password: v, error: '', submitted: false));
+
+  void confirmPasswordChanged(String v) =>
+      emit(state.copyWith(confirmPassword: v, error: '', submitted: false));
 
   Future<void> submit() async {
     if (!state.isValid) {
-      emit(state.copyWith(error: 'Please fill all fields correctly.'));
+      emit(state.copyWith(error: "Please fill all fields correctly."));
       return;
     }
 
-    final exists = await DBHelper().usernameExists(state.username);
+    final exists = await _repo.usernameExists(state.username);
     if (exists) {
-      emit(state.copyWith(error: 'Username already exists.'));
+      emit(state.copyWith(error: "Username already exists."));
       return;
     }
 
-    try {
-      await DBHelper().insertUser({
-        'fullName': state.fullName,
-        'username': state.username,
-        'password': state.password,
-      });
-      emit(state.copyWith(submitted: true, error: ''));
-    } catch (e) {
-      emit(state.copyWith(error: 'Signup failed.'));
+    final user = NormalUserModel(
+      id: null,
+      username: state.username,
+      email: state.email,
+      password: state.password,
+      fullName: "",
+      birthDate: "",
+      address: "",
+    );
+
+    final success = await _repo.signup(user);
+
+    if (!success) {
+      print("Signup failed");
+      emit(state.copyWith(error: "Signup failed. Try again."));
+      return;
     }
+
+    emit(state.copyWith(submitted: true, error: ""));
   }
 }

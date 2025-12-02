@@ -2,6 +2,8 @@ import 'Baseuser.dart';
 
 class CompanyUserModel extends UserModel {
   final String companyName;
+  final String? phone;
+  final String? vatNumber;
 
   CompanyUserModel({
     int? id,
@@ -9,6 +11,8 @@ class CompanyUserModel extends UserModel {
     required String email,
     required String password,
     required this.companyName,
+    this.phone,
+    this.vatNumber,
   }) : super(
          id: id,
          username: username,
@@ -20,15 +24,14 @@ class CompanyUserModel extends UserModel {
   @override
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "userType": userType,
-      "username": username,
+      // Don't include "id" - it's auto-increment
+      "type": userType, // ✅ Changed from "userType"
+      "name": username, // ✅ Changed from "username"
       "email": email,
       "password": password,
-      "companyName": companyName,
-      "fullName": null,
-      "birthDate": null,
-      "address": null,
+      "cname": companyName, // ✅ Changed from "companyName"
+      "phone": phone, // ⭐ ADDED
+      "vat": vatNumber, // ⭐ ADDED
     };
   }
 }
