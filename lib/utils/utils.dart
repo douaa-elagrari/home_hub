@@ -52,3 +52,4 @@ export '../presentation/screens/signin.dart';
 export '../presentation/screens/verification.dart';
 export '../presentation/screens/welcome.dart';
 export '../l10n/app_localizations.dart';
+export '../presentation/widgets/minibutton.dart';

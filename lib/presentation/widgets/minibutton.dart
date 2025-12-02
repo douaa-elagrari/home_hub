@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Mybutton extends StatefulWidget {
+class Minibutton extends StatefulWidget {
   final String text;
   final Color bgcolor;
-  final Color fgcolor;
+
   final VoidCallback onPressed;
-  const Mybutton({
+  const Minibutton({
     super.key,
     required this.text,
     required this.bgcolor,
-    required this.fgcolor,
+
     required this.onPressed,
   });
 
   @override
-  State<Mybutton> createState() => _MybuttonState();
+  State<Minibutton> createState() => _MybuttonState();
 }
 
-class _MybuttonState extends State<Mybutton> {
+class _MybuttonState extends State<Minibutton> {
   bool _isLoading = false;
 
   Future<bool> _handlePress() async {
@@ -40,13 +40,13 @@ class _MybuttonState extends State<Mybutton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 250,
-      height: 50,
+      width: 120,
+      height: 45,
       child: ElevatedButton(
         onPressed: _isLoading ? null : _handlePress,
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.bgcolor,
-          foregroundColor: widget.fgcolor,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(color: Color(0xFF004E98), width: 2.0),
@@ -60,7 +60,7 @@ class _MybuttonState extends State<Mybutton> {
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
-                  color: widget.fgcolor,
+                  color: Colors.white,
                   strokeWidth: 3,
                 ),
               )
