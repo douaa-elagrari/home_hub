@@ -1,3 +1,4 @@
+import 'dart:io';
 import '../../utils/utils.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations_ar.dart';
@@ -5,8 +6,19 @@ import 'l10n/app_localizations_en.dart';
 import 'l10n/app_localizations_fr.dart';
 import 'l10n/app_localizations.dart';
 import 'logic/cubit/signincubit.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //  Desktop SQLite initialization
+  if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
   runApp(const MyApp());
 }
 
@@ -21,14 +33,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'HomeHub',
         localizationsDelegates: const [
-          AppLocalizations.delegate, // Generated delegate
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(useMaterial3: true),
-
         initialRoute: '/',
         onGenerateRoute: (settings) {
           switch (settings.name) {
@@ -48,19 +59,14 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => Verification());
             case '/homescreen':
               return MaterialPageRoute(builder: (_) => HomeScreen());
-
             case '/signin_pro':
               return MaterialPageRoute(builder: (_) => SigninPro());
-
             case '/home_screen_pro':
               return MaterialPageRoute(builder: (_) => HomeScreenPro());
-
             case '/signup':
               return MaterialPageRoute(builder: (_) => Signup());
-
             case '/signup_pro':
               return MaterialPageRoute(builder: (_) => SignupPro());
-
             default:
               return MaterialPageRoute(
                 builder: (_) =>
