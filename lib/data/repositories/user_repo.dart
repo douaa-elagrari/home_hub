@@ -7,7 +7,7 @@ abstract class UserRepo {
   Future<bool> signup(UserModel user);
   Future<UserModel?> login(String email, String password);
   Future<bool> usernameExists(String username);
-  Future<bool> emailExists(String email); // ⭐ ADD THIS
+  Future<bool> emailExists(String email); 
 
   static UserRepo? _instance;
 

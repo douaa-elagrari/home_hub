@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/models/normaluser.dart';
 import '../../../data/repositories/user_db_repo.dart';
 import '../../../data/repositories/user_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupState {
   final String email;
@@ -89,6 +90,8 @@ class SignupCubit extends Cubit<SignupState> {
       emit(state.copyWith(error: "Signup failed. Try again."));
       return;
     }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('logged_username', user.username);
 
     emit(state.copyWith(submitted: true, error: ""));
   }

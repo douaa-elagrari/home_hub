@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/utils.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
   final TextEditingController searchController;
   final Function(String) onSearch;
 
@@ -9,6 +11,27 @@ class HomeHeader extends StatelessWidget {
     required this.searchController,
     required this.onSearch,
   });
+
+  @override
+  State<HomeHeader> createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  String username = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  Future<void> loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username =
+          prefs.getString('logged_username') ?? ""; // 🔥 get saved username
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +74,16 @@ class HomeHeader extends StatelessWidget {
                         children: [
                           Text(
                             loc.welcomeBack,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFFFF6700),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            loc.username,
-                            style: TextStyle(
+                            username.isNotEmpty
+                                ? username
+                                : loc.username, // 🔥 dynamic username
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
@@ -92,9 +117,7 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 60),
-
             // SEARCH BAR
             Container(
               decoration: BoxDecoration(
@@ -109,8 +132,8 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
               child: TextField(
-                controller: searchController,
-                onChanged: onSearch,
+                controller: widget.searchController,
+                onChanged: widget.onSearch,
                 decoration: InputDecoration(
                   hintText: loc.search,
                   prefixIcon: const Icon(

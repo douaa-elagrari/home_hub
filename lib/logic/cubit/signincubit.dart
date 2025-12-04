@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/models/Baseuser.dart';
 import '../../../data/repositories/user_db_repo.dart';
 import '../../../data/repositories/user_repo.dart';
@@ -27,14 +28,15 @@ class SigninState {
     bool? success,
     String? error,
     UserModel? user,
-  }) => SigninState(
-    username: username ?? this.username,
-    password: password ?? this.password,
-    isLoading: isLoading ?? this.isLoading,
-    success: success ?? this.success,
-    error: error ?? this.error,
-    user: user ?? this.user,
-  );
+  }) =>
+      SigninState(
+        username: username ?? this.username,
+        password: password ?? this.password,
+        isLoading: isLoading ?? this.isLoading,
+        success: success ?? this.success,
+        error: error ?? this.error,
+        user: user ?? this.user,
+      );
 }
 
 class SigninCubit extends Cubit<SigninState> {
@@ -64,11 +66,15 @@ class SigninCubit extends Cubit<SigninState> {
         return;
       }
 
+      // SAVE LOGGED USERNAME
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('logged_username', user.username);
+
       emit(
-        state.copyWith(user: user, success: true, isLoading: false, error: ""),
+        state.copyWith(
+            user: user, success: true, isLoading: false, error: ""),
       );
     } catch (e) {
-      print("Sign in error: $e");
       emit(
         state.copyWith(
           error: "An error occurred. Please try again.",

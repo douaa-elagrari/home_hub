@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/utils.dart';
 
 class Myproprofile extends StatefulWidget {
@@ -22,6 +24,22 @@ class _MyproprofileState extends State<Myproprofile> {
     Icons.logout,
   ];
 
+  String username = "User Name"; // 🔥 default username
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  // 🔥 Load username from SharedPreferences
+  Future<void> loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('logged_username') ?? "User Name";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +47,7 @@ class _MyproprofileState extends State<Myproprofile> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.chevron_left, size: 35),
         ),
         title: const Text(
@@ -53,9 +69,9 @@ class _MyproprofileState extends State<Myproprofile> {
               radius: 60,
             ),
             const SizedBox(height: 15),
-            const Text(
-              'User Name',
-              style: TextStyle(
+            Text(
+              username, // 🔥 display real username
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,

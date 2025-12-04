@@ -11,7 +11,7 @@ class UserDBRepo implements UserRepo {
   static const String table = "users";
 
   Future<Database> _db() async => await DBHelper.getDatabase();
-  //
+
   @override
   Future<bool> signup(UserModel user) async {
     try {
@@ -20,8 +20,8 @@ class UserDBRepo implements UserRepo {
       print("User data to insert: ${user.toMap()}");
 
       final id = await db.insert(table, user.toMap());
-
       print("Insert successful! New user ID: $id");
+
       return true;
     } catch (e) {
       print("❌ Register error: $e");
@@ -33,13 +33,11 @@ class UserDBRepo implements UserRepo {
   @override
   Future<bool> emailExists(String email) async {
     final db = await _db();
-
     final result = await db.query(
       table,
       where: "email = ?",
       whereArgs: [email],
     );
-
     return result.isNotEmpty;
   }
 
@@ -60,13 +58,11 @@ class UserDBRepo implements UserRepo {
   @override
   Future<bool> usernameExists(String username) async {
     final db = await _db();
-
     final result = await db.query(
       table,
-      where: "name = ?", // Changed from "userName"
+      where: "name = ?",
       whereArgs: [username],
     );
-
     return result.isNotEmpty;
   }
 
@@ -82,8 +78,10 @@ class UserDBRepo implements UserRepo {
           email: data["email"],
           password: data["password"],
           companyName: data["cname"] ?? "",
-          phone: data["phone"], // ⭐ ADD THIS
-          vatNumber: data["vat"], // ⭐ ADD THIS
+          phone: data["phone"] ?? "",
+          vatNumber: data["vat"] ?? "",
+          location: data["location"] ?? "",
+          description: data["description"] ?? "",
         );
 
       case "freelancer":
@@ -95,7 +93,7 @@ class UserDBRepo implements UserRepo {
           fullName: data["fname"] ?? "",
           birthDate: data["bd"] ?? "",
           address: data["addr"] ?? "",
-          phone: data["phone"], // ⭐ ADD THIS
+          phone: data["phone"] ?? "",
         );
 
       case "normal":

@@ -1,13 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/utils.dart';
 
-class HeaderTopRow extends StatelessWidget {
-  final String username;
+class HeaderTopRow extends StatefulWidget {
+  const HeaderTopRow({super.key});
 
-  const HeaderTopRow({super.key, required this.username});
+  @override
+  State<HeaderTopRow> createState() => _HeaderTopRowState();
+}
+
+class _HeaderTopRowState extends State<HeaderTopRow> {
+  String username = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  Future<void> loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('logged_username') ?? "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!; // get localized strings
+    final loc = AppLocalizations.of(context)!; // localized strings
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +58,9 @@ class HeaderTopRow extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  username,
+                  username.isNotEmpty
+                      ? username
+                      : loc.username, // dynamic username
                   style: const TextStyle(
                     color: Color(0xFF000000),
                     fontWeight: FontWeight.w500,

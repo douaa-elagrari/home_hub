@@ -4,6 +4,8 @@ class Agency {
   final String location;
   final String phone;
   final String image;
+  
+
 
   Agency({
     required this.title,

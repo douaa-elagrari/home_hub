@@ -121,7 +121,7 @@ class LikesTab extends StatelessWidget {
         // Fixed Header
         Container(
           padding: const EdgeInsets.only(top: 60, left: 16, right: 16),
-          child: HeaderTopRow(username: username),
+          child: HeaderTopRow(),
         ),
 
         const SizedBox(height: 20),

@@ -15,8 +15,10 @@ class DatabaseConfig {
   static const String birthdate = "bd";
   static const String address = "addr";
   static const String companyName = "cname";
-  static const String phone = "phone"; // ⭐ ADDED
-  static const String vatNumber = "vat"; // ⭐ ADDED
+  static const String phone = "phone"; 
+  static const String vatNumber = "vat"; 
+  static const String location = "location";
+  static const String description = "description";
 
   // Products table
   static const String products = "products";
@@ -30,8 +32,7 @@ class DatabaseConfig {
   static const String productColors = "pcolors";
 
   // SQL CREATE TABLE statements
-  static const String createUsersTable =
-      '''
+  static const String createUsersTable = '''
     CREATE TABLE IF NOT EXISTS $users (
       $userId INTEGER PRIMARY KEY AUTOINCREMENT,
       $userType TEXT,
@@ -43,12 +44,13 @@ class DatabaseConfig {
       $address TEXT,
       $companyName TEXT,
       $phone TEXT,
-      $vatNumber TEXT
+      $vatNumber TEXT,
+      $location TEXT,
+      $description TEXT
     )
   ''';
 
-  static const String createProductsTable =
-      '''
+  static const String createProductsTable = '''
     CREATE TABLE IF NOT EXISTS $products (
       $productId INTEGER PRIMARY KEY AUTOINCREMENT,
       $productName TEXT,

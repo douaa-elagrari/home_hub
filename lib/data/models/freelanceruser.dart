@@ -27,14 +27,14 @@ class FreelancerUserModel extends UserModel {
   Map<String, dynamic> toMap() {
     return {
       // Don't include "id" - it's auto-increment
-      "type": userType, // ✅ Changed from "userType"
-      "name": username, // ✅ Changed from "username"
+      "type": userType, 
+      "name": username, 
       "email": email,
       "password": password,
-      "fname": fullName, // ✅ Changed from "fullName"
-      "bd": birthDate, // ✅ Changed from "birthDate"
-      "addr": address, // ✅ Changed from "address"
-      "phone": phone, // ⭐ ADDED
+      "fname": fullName, 
+      "bd": birthDate, 
+      "addr": address, 
+      "phone": phone, 
     };
   }
 }

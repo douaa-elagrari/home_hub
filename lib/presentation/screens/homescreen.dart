@@ -45,7 +45,7 @@ class HomScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 60, left: 16, right: 16),
-            child: HeaderTopRow(username: loc.username), // translated username
+            child: HeaderTopRow(), // translated username
           ),
           Expanded(
             child: SingleChildScrollView(

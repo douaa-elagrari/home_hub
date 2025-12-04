@@ -359,7 +359,6 @@
 import '../../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../utils/utils.dart';
 import '../../logic/cubit/signup_pro_cubit.dart';
 
 // Main widget that provides the cubit
@@ -394,6 +393,8 @@ class _SignupProFormState extends State<SignupProForm> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final TextEditingController _vatController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   void dispose() {
@@ -404,6 +405,8 @@ class _SignupProFormState extends State<SignupProForm> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _vatController.dispose();
+    _locationController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -680,6 +683,47 @@ class _SignupProFormState extends State<SignupProForm> {
                           ),
                         if (state.type == 'Company') const SizedBox(height: 15),
 
+                        // Location (only for Company)
+                        if (state.type == 'Company')
+                          TextFormField(
+                            controller: _locationController,
+                            decoration: InputDecoration(
+                              labelText: 'Location',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (state.type == 'Company' &&
+                                  (value == null || value.trim().isEmpty)) {
+                                return 'Enter location';
+                              }
+                              return null;
+                            },
+                          ),
+                        if (state.type == 'Company') const SizedBox(height: 15),
+
+                        // Description (only for Company)
+                        if (state.type == 'Company')
+                          TextFormField(
+                            controller: _descriptionController,
+                            maxLines: 3,
+                            decoration: InputDecoration(
+                              labelText: 'Description',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (state.type == 'Company' &&
+                                  (value == null || value.trim().isEmpty)) {
+                                return 'Enter description';
+                              }
+                              return null;
+                            },
+                          ),
+                        if (state.type == 'Company') const SizedBox(height: 15),
+
                         // Password
                         TextFormField(
                           controller: _passwordController,
@@ -742,6 +786,9 @@ class _SignupProFormState extends State<SignupProForm> {
                                   email: _emailController.text.trim(),
                                   password: _passwordController.text.trim(),
                                   vatNumber: _vatController.text.trim(),
+                                  location: _locationController.text.trim(),
+                                  description: _descriptionController.text
+                                      .trim(),
                                 );
                               }
                             },

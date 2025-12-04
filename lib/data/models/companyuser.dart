@@ -4,6 +4,8 @@ class CompanyUserModel extends UserModel {
   final String companyName;
   final String? phone;
   final String? vatNumber;
+  final String? location;
+  final String? description;
 
   CompanyUserModel({
     int? id,
@@ -13,25 +15,28 @@ class CompanyUserModel extends UserModel {
     required this.companyName,
     this.phone,
     this.vatNumber,
+    this.location,
+    this.description,
   }) : super(
-         id: id,
-         username: username,
-         email: email,
-         password: password,
-         userType: "company",
-       );
+          id: id,
+          username: username,
+          email: email,
+          password: password,
+          userType: "company",
+        );
 
   @override
   Map<String, dynamic> toMap() {
     return {
-      // Don't include "id" - it's auto-increment
-      "type": userType, // ✅ Changed from "userType"
-      "name": username, // ✅ Changed from "username"
+      "type": userType,
+      "name": username,
       "email": email,
       "password": password,
-      "cname": companyName, // ✅ Changed from "companyName"
-      "phone": phone, // ⭐ ADDED
-      "vat": vatNumber, // ⭐ ADDED
+      "cname": companyName,
+      "phone": phone,
+      "vat": vatNumber,
+      "location": location,
+      "description": description,
     };
   }
 }

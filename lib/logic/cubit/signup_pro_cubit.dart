@@ -3,6 +3,7 @@ import '../../../data/models/companyuser.dart';
 import '../../../data/models/freelanceruser.dart';
 import '../../../data/repositories/user_db_repo.dart';
 import '../../../data/repositories/user_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupProState {
   final String type; // 'Individual' or 'Company'
@@ -13,6 +14,8 @@ class SignupProState {
   final String password;
   final String confirmPassword;
   final String vatNumber;
+  final String location;
+  final String description;
   final bool submitted;
   final bool isSubmitting;
   final String error;
@@ -26,6 +29,8 @@ class SignupProState {
     this.password = '',
     this.confirmPassword = '',
     this.vatNumber = '',
+    this.location = '',
+    this.description = '',
     this.submitted = false,
     this.isSubmitting = false,
     this.error = '',
@@ -40,6 +45,8 @@ class SignupProState {
     String? password,
     String? confirmPassword,
     String? vatNumber,
+    String? location,
+    String? description,
     bool? submitted,
     bool? isSubmitting,
     String? error,
@@ -52,6 +59,8 @@ class SignupProState {
     password: password ?? this.password,
     confirmPassword: confirmPassword ?? this.confirmPassword,
     vatNumber: vatNumber ?? this.vatNumber,
+    location: location ?? this.location,
+    description: description ?? this.description,
     submitted: submitted ?? this.submitted,
     isSubmitting: isSubmitting ?? this.isSubmitting,
     error: error ?? this.error,
@@ -69,24 +78,22 @@ class SignupProCubit extends Cubit<SignupProState> {
 
   void nameChanged(String v) =>
       emit(state.copyWith(name: v, error: '', submitted: false));
-
   void companyNameChanged(String v) =>
       emit(state.copyWith(companyName: v, error: '', submitted: false));
-
   void phoneChanged(String v) =>
       emit(state.copyWith(phone: v, error: '', submitted: false));
-
   void emailChanged(String v) =>
       emit(state.copyWith(email: v, error: '', submitted: false));
-
   void passwordChanged(String v) =>
       emit(state.copyWith(password: v, error: '', submitted: false));
-
   void confirmPasswordChanged(String v) =>
       emit(state.copyWith(confirmPassword: v, error: '', submitted: false));
-
   void vatNumberChanged(String v) =>
       emit(state.copyWith(vatNumber: v, error: '', submitted: false));
+  void locationChanged(String v) =>
+      emit(state.copyWith(location: v, error: '', submitted: false));
+  void descriptionChanged(String v) =>
+      emit(state.copyWith(description: v, error: '', submitted: false));
 
   Future<void> submitForm({
     required String name,
@@ -95,11 +102,12 @@ class SignupProCubit extends Cubit<SignupProState> {
     required String email,
     required String password,
     required String vatNumber,
+    String? location,
+    String? description,
   }) async {
     emit(state.copyWith(isSubmitting: true, error: ''));
 
     try {
-      // Check if email already exists
       final emailExists = await _repo.emailExists(email);
       if (emailExists) {
         emit(
@@ -108,16 +116,17 @@ class SignupProCubit extends Cubit<SignupProState> {
         return;
       }
 
-      // Create user based on type
       if (state.type == 'Company') {
         final user = CompanyUserModel(
           id: null,
-          username: email.split('@')[0], // Generate username from email
+          username: email.split('@')[0],
           email: email,
           password: password,
           companyName: companyName,
           phone: phone,
           vatNumber: vatNumber,
+          location: location,
+          description: description,
         );
 
         final success = await _repo.signup(user);
@@ -130,11 +139,13 @@ class SignupProCubit extends Cubit<SignupProState> {
           );
           return;
         }
+        // Save username to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('logged_username', user.username);
       } else {
-        // Individual (Freelancer)
         final user = FreelancerUserModel(
           id: null,
-          username: name, // Generate username from email
+          username: name,
           email: email,
           password: password,
           fullName: name,
@@ -153,6 +164,9 @@ class SignupProCubit extends Cubit<SignupProState> {
           );
           return;
         }
+        // Save username to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('logged_username', user.username);
       }
 
       emit(state.copyWith(submitted: true, isSubmitting: false, error: ""));
@@ -170,4 +184,4 @@ class SignupProCubit extends Cubit<SignupProState> {
   void resetSubmitting() {
     emit(state.copyWith(isSubmitting: false));
   }
-}
+} 
