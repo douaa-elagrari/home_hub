@@ -4,7 +4,10 @@ class FreelancerUserModel extends UserModel {
   final String fullName;
   final String birthDate;
   final String address;
-  final String? phone;
+  final String? phone;  
+
+  final String profession; 
+  final String city;     
 
   FreelancerUserModel({
     int? id,
@@ -15,6 +18,8 @@ class FreelancerUserModel extends UserModel {
     required this.birthDate,
     required this.address,
     this.phone,
+    required this.profession,  
+    required this.city,  
   }) : super(
          id: id,
          username: username,
@@ -34,7 +39,9 @@ class FreelancerUserModel extends UserModel {
       "fname": fullName, 
       "bd": birthDate, 
       "addr": address, 
-      "phone": phone, 
+      "phone": phone,
+      "profession": profession, // NEW
+      "city": city,             // NEW
     };
   }
 }

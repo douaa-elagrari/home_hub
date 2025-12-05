@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
 
 class AgencyCard extends StatefulWidget {
@@ -10,6 +11,35 @@ class AgencyCard extends StatefulWidget {
 }
 
 class _AgencyCardState extends State<AgencyCard> {
+  late Agency agency;
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    agency = widget.agency; // use agency passed to the widget
+
+    _loadLikedState();
+  }
+
+  void _loadLikedState() {
+    setState(() {
+      isLiked = likedItems.any((l) => l.item.title == agency.title);
+    });
+  }
+
+  void toggleLike() {
+    setState(() {
+      if (isLiked) {
+        likedItems.removeWhere((l) => l.item.title == agency.title);
+        isLiked = false;
+      } else {
+        likedItems.add(SavedItem(type: SavedType.agency, item: agency));
+        isLiked = true;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,50 +56,41 @@ class _AgencyCardState extends State<AgencyCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // TOP IMAGE
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image.asset(
-                    widget.agency.image,
+                    agency.image,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
-
                 const SizedBox(height: 12),
-
                 Text(
-                  widget.agency.title,
+                  agency.title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 Text(
-                  widget.agency.description,
+                  agency.description,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
-
                 const SizedBox(height: 12),
-
                 Row(
                   children: [
                     const Icon(Icons.location_pin, size: 18),
                     const SizedBox(width: 4),
-                    Text(widget.agency.location),
+                    Text(agency.location),
                     const Spacer(),
                     const Icon(Icons.phone, size: 18),
                     const SizedBox(width: 4),
-                    Text(widget.agency.phone),
+                    Text(agency.phone),
                   ],
                 ),
-
                 const SizedBox(height: 12),
-
                 Align(
                   alignment: Alignment.centerRight,
                   child: Center(
@@ -79,7 +100,7 @@ class _AgencyCardState extends State<AgencyCard> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                PortfolioAgency(agency: widget.agency),
+                                PortfolioAgency(agency: agency),
                           ),
                         );
                       },
@@ -105,30 +126,16 @@ class _AgencyCardState extends State<AgencyCard> {
             ),
           ),
         ),
-
-        // LIKE BUTTON
         Positioned(
           top: 26,
           right: 22,
           child: IconButton(
             icon: Icon(
-              likedItems.any((l) => l.item == widget.agency)
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-              color: Color(0xFFFF6700),
+              isLiked ? Icons.favorite : Icons.favorite_border,
+              color: const Color(0xFFFF6700),
               size: 26,
             ),
-            onPressed: () {
-              setState(() {
-                if (likedItems.any((l) => l.item == widget.agency)) {
-                  likedItems.removeWhere((l) => l.item == widget.agency);
-                } else {
-                  likedItems.add(
-                    SavedItem(type: SavedType.agency, item: widget.agency),
-                  );
-                }
-              });
-            },
+            onPressed: toggleLike,
           ),
         ),
       ],

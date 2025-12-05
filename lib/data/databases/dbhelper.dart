@@ -14,6 +14,7 @@ class DBHelper {
       onCreate: (db, version) async {
         await db.execute(DatabaseConfig.createUsersTable);
         await db.execute(DatabaseConfig.createProductsTable);
+        await db.execute(DatabaseConfig.createAgencyTable); 
       },
     );
 

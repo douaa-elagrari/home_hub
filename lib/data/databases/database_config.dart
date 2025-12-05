@@ -1,65 +1,44 @@
-import 'package:flutter/rendering.dart';
-
 class DatabaseConfig {
-  static const String databaseName = "users.db";
+  static const String databaseName = "app.db";
   static const int databaseVersion = 1;
 
   // Users table
-  static const String users = "users";
-  static const String userId = "id";
-  static const String userType = "type";
-  static const String userName = "name";
-  static const String userEmail = "email";
-  static const String userPassword = "password";
-  static const String fullname = "fname";
-  static const String birthdate = "bd";
-  static const String address = "addr";
-  static const String companyName = "cname";
-  static const String phone = "phone"; 
-  static const String vatNumber = "vat"; 
-  static const String location = "location";
-  static const String description = "description";
-
-  // Products table
-  static const String products = "products";
-  static const String productId = "pid";
-  static const String productName = "pname";
-  static const String productDescription = "pdesc";
-  static const String productPrice = "pprice";
-  static const String productCategory = "pcat";
-  static const String productImageId = "pimgid";
-  static const String productRating = "prating";
-  static const String productColors = "pcolors";
-
-  // SQL CREATE TABLE statements
   static const String createUsersTable = '''
-    CREATE TABLE IF NOT EXISTS $users (
-      $userId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $userType TEXT,
-      $userName TEXT UNIQUE,
-      $userEmail TEXT NOT NULL UNIQUE,
-      $userPassword TEXT NOT NULL,
-      $fullname TEXT,
-      $birthdate TEXT,
-      $address TEXT,
-      $companyName TEXT,
-      $phone TEXT,
-      $vatNumber TEXT,
-      $location TEXT,
-      $description TEXT
+    CREATE TABLE users(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      email TEXT,
+      password TEXT,
+      type TEXT,
+      cname TEXT,
+      phone TEXT,
+      vat TEXT,
+      location TEXT,
+      description TEXT,
+      fname TEXT,
+      bd TEXT,
+      addr TEXT
     )
   ''';
 
+  // Products table (keep yours)
   static const String createProductsTable = '''
-    CREATE TABLE IF NOT EXISTS $products (
-      $productId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $productName TEXT,
-      $productDescription TEXT,
-      $productPrice REAL,
-      $productCategory TEXT,
-      $productImageId TEXT,
-      $productRating REAL,
-      $productColors TEXT
+    CREATE TABLE products(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      price REAL
+    )
+  ''';
+
+  // Agencies table
+  static const String createAgencyTable = '''
+    CREATE TABLE agency(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      description TEXT,
+      location TEXT,
+      phone TEXT,
+      image TEXT
     )
   ''';
 }
