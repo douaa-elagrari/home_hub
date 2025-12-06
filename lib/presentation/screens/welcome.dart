@@ -10,6 +10,7 @@ class Welcome extends StatefulWidget {
 class _Welcome extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -20,7 +21,7 @@ class _Welcome extends State<Welcome> {
           crossAxisAlignment: CrossAxisAlignment.center, // centers horizontally
           children: [
             Text(
-              'Welcome To HomeHub',
+              loc.welcomeToHomeHub,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF004E98),
@@ -30,13 +31,13 @@ class _Welcome extends State<Welcome> {
             ),
             SizedBox(height: 30),
             Text(
-              'Your all in one platform to build,\nfinish and maintain your home in Algeria',
+              loc.homeHubSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black, fontSize: 16),
             ),
             SizedBox(height: 60),
             Mybutton(
-              text: 'Hire a Service',
+              text: loc.hireService,
               bgcolor: Color(0xFF004E98),
               fgcolor: Colors.white,
               onPressed: () {
@@ -45,7 +46,7 @@ class _Welcome extends State<Welcome> {
             ),
             SizedBox(height: 20),
             Mybutton(
-              text: 'Provide a Service',
+              text: loc.provideService,
               bgcolor: Colors.white,
               fgcolor: Color(0xFF004E98),
               onPressed: () {
@@ -58,3 +59,4 @@ class _Welcome extends State<Welcome> {
     );
   }
 }
+
