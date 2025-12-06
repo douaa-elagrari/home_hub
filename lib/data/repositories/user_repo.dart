@@ -7,7 +7,12 @@ abstract class UserRepo {
   Future<bool> signup(UserModel user);
   Future<UserModel?> login(String email, String password);
   Future<bool> usernameExists(String username);
-  Future<bool> emailExists(String email); 
+  Future<bool> emailExists(String email);
+  Future<UserModel?> getUserByUsername(String username);
+  Future<bool> updateProfilePicture(
+    String username,
+    String? profilePicturePath,
+  );
 
   static UserRepo? _instance;
 
