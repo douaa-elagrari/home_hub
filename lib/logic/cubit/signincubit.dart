@@ -401,10 +401,15 @@ class SigninCubit extends Cubit<SigninState> {
     emit(state.copyWith(password: v, error: '', success: false));
   }
 
-  Future<void> signIn(String usernameOrEmail, String password) async {
-    emit(state.copyWith(isLoading: true, error: ''));
 
-    // 🔐 CLEAR SESSION AT START OF EACH ATTEMPT
+  void resetSuccess() {
+    emit(state.copyWith(success: false));
+  }
+
+  Future<void> signIn(String usernameOrEmail, String password) async {
+    emit(state.copyWith(isLoading: true, error: '', success: false));
+
+ 
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
 
@@ -413,12 +418,13 @@ class SigninCubit extends Cubit<SigninState> {
         state.copyWith(
           isLoading: false,
           error: "Please enter username and password.",
+          success: false,
         ),
       );
       return;
     }
 
-    // 🔐 Validate from database
+   
     final user = await _repo.login(usernameOrEmail, password);
 
     if (user == null) {
@@ -426,12 +432,12 @@ class SigninCubit extends Cubit<SigninState> {
         state.copyWith(
           isLoading: false,
           error: "Invalid username/email or password. Try again.",
+          success: false,
         ),
       );
       return;
     }
 
-    // 🔐 Save secure login only on success
     await prefs.setString('logged_username', user.username);
     await prefs.setInt('logged_user_id', user.id ?? 0);
 
