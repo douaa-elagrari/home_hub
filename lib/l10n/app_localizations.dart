@@ -73,6 +73,74 @@ abstract class AppLocalizations {
   String get noFavoritesYet;
   String get products;
   String get agencies;
+  // Auth / Snackbars
+  String get loggedInSuccess;
+  String get registeredSuccess;
+
+  // Auth forms
+
+  String get signIn;
+  String get signUp;
+  String get usernameOrEmail;
+  String get enterUsernameOrEmail;
+  String get password;
+  String get enterPassword;
+  String get forgotPassword;
+  String get dontHaveAccount;
+  String get alreadyHaveAccount;
+
+  // Professional signup
+  String get professionalSignUp;
+  String get individual;
+  String get company;
+  String get fullName;
+  String get enterFullName;
+  String get companyName;
+  String get enterCompanyName;
+  String get phoneNumber;
+  String get enterPhoneNumber;
+  String get invalidPhoneNumber;
+  String get email;
+  String get enterEmail;
+  String get invalidEmail;
+  String get vatNumber;
+  String get enterVatNumber;
+  String get location;
+  String get enterLocation;
+  String get description;
+  String get enterDescription;
+  String get atLeast6Chars;
+  String get confirmPassword;
+  String get confirmYourPassword;
+  String get passwordsDoNotMatch;
+  String get submitting;
+
+  String get signInPro;
+  // Onboarding / pages
+  String get growBusiness;
+  String get growBusinessDesc;
+  String get furnishStyleEasily;
+  String get furnishStyleDesc;
+  String get findTrustedProfessionals;
+  String get findTrustedDesc;
+  String get welcomeToHomeHub;
+  String get homeHubSubtitle;
+  String get hireService;
+  String get provideService;
+
+  String get enterUsername;
+
+  //myprofile
+  String get myProfile;
+  String get editProfile;
+  String get notifications;
+  String get switchToServiceProviderAccount;
+  String get logout;
+  //account type
+  String get companyAccount;
+  String get freelancerAccount;
+  String get normalAccount;
+  String get userAccount;
 }
 
 // ---------------- LocalizationsDelegate ----------------
