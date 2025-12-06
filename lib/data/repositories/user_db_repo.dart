@@ -52,7 +52,7 @@ class UserDBRepo implements UserRepo {
       final id = await db.insert(table, data);
       return id > 0;
     } catch (e) {
-      print("❌ Register error: $e");
+      print(" Register error: $e");
       return false;
     }
   }
@@ -68,7 +68,7 @@ class UserDBRepo implements UserRepo {
       );
       return result.isNotEmpty;
     } catch (e) {
-      print("❌ Check email error: $e");
+      print(" Check email error: $e");
       return false;
     }
   }
@@ -84,7 +84,7 @@ class UserDBRepo implements UserRepo {
       );
       return result.isNotEmpty;
     } catch (e) {
-      print("❌ Check username error: $e");
+      print(" Check username error: $e");
       return false;
     }
   }
@@ -106,7 +106,7 @@ class UserDBRepo implements UserRepo {
 
       return _mapToUser(result.first);
     } catch (e) {
-      print("❌ Login error: $e");
+      print(" Login error: $e");
       return null;
     }
   }
@@ -152,6 +152,44 @@ class UserDBRepo implements UserRepo {
     }
   }
 
+  @override
+  Future<UserModel?> getUserByUsername(String username) async {
+    try {
+      final db = await _db();
+      final result = await db.query(
+        table,
+        where: "name = ?",
+        whereArgs: [username],
+      );
+
+      if (result.isEmpty) return null;
+      return _mapToUser(result.first);
+    } catch (e) {
+      print("Error fetching user by username: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> updateProfilePicture(
+    String username,
+    String? profilePicturePath,
+  ) async {
+    try {
+      final db = await _db();
+      final result = await db.update(
+        table,
+        {'profile_pic': profilePicturePath},
+        where: 'name = ?',
+        whereArgs: [username],
+      );
+      return result > 0;
+    } catch (e) {
+      print("Error updating profile picture: $e");
+      return false;
+    }
+  }
+
   // Optional: Get user by ID
   Future<UserModel?> getUserById(int id) async {
     try {
@@ -166,23 +204,8 @@ class UserDBRepo implements UserRepo {
       if (result.isEmpty) return null;
       return _mapToUser(result.first);
     } catch (e) {
-      print("❌ Get user by ID error: $e");
+      print(" Get user by ID error: $e");
       return null;
-    }
-  }
-
-  Future<bool> deleteUsersByCompanyName(String companyName) async {
-    try {
-      final db = await DBHelper.getDatabase();
-      await db.delete(
-        'users',
-        where: 'name = ? AND type = ?',
-        whereArgs: [companyName, 'company'],
-      );
-      return true;
-    } catch (e) {
-      print("❌ Delete users by company error: $e");
-      return false;
     }
   }
 }
