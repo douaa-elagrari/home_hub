@@ -4,6 +4,7 @@ class Pagetwo extends StatelessWidget {
   const Pagetwo({super.key});
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: GestureDetector(
         onHorizontalDragUpdate: (details) {
@@ -14,9 +15,8 @@ class Pagetwo extends StatelessWidget {
           }
         },
         child: Mypage(
-          title: 'Furnish & Style Easily ',
-          description:
-              'Browse materials, furniture, and design\n ideas that match your style and budget.',
+          title: loc.furnishStyleEasily,
+          description: loc.furnishStyleDesc,
           imagePath: 'assets/images/page2.png',
 
           circleone: false,
@@ -28,3 +28,4 @@ class Pagetwo extends StatelessWidget {
     );
   }
 }
+
