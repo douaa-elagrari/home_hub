@@ -4,6 +4,7 @@ class Pageone extends StatelessWidget {
   const Pageone({super.key});
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: GestureDetector(
         onHorizontalDragUpdate: (details) {
@@ -12,9 +13,8 @@ class Pageone extends StatelessWidget {
           }
         },
         child: Mypage(
-          title: 'Find Trusted Professionals',
-          description:
-              'Connect with trusted builders, electricians,\n plumbers, and cleaners — anytime,\n anywhere.',
+          title: loc.findTrustedProfessionals,
+          description: loc.findTrustedDesc,
           imagePath: 'assets/images/page1.png',
 
           circleone: true,
@@ -26,3 +26,5 @@ class Pageone extends StatelessWidget {
     );
   }
 }
+
+
