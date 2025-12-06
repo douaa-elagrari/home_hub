@@ -17,13 +17,15 @@ class CompanyUserModel extends UserModel {
     this.vatNumber,
     this.location,
     this.description,
+    String? profilePicture,
   }) : super(
-          id: id,
-          username: username,
-          email: email,
-          password: password,
-          userType: "company",
-        );
+         id: id,
+         username: username,
+         email: email,
+         password: password,
+         userType: "company",
+         profilePicture: profilePicture,
+       );
 
   @override
   Map<String, dynamic> toMap() {
@@ -40,3 +42,4 @@ class CompanyUserModel extends UserModel {
     };
   }
 }
+
