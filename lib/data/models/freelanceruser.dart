@@ -15,13 +15,15 @@ class FreelancerUserModel extends UserModel {
     this.phone,
     required this.profession,
     required this.city,
+    String? profilePicture,
   }) : super(
-          id: id,
-          username: username,
-          email: email,
-          password: password,
-          userType: "freelancer",
-        );
+         id: id,
+         username: username,
+         email: email,
+         password: password,
+         userType: "freelancer",
+         profilePicture: profilePicture,
+       );
 
   Map<String, dynamic> toMap() {
     return {
