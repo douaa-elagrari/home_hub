@@ -4,6 +4,7 @@ abstract class UserModel {
   final String email;
   final String password;
   final String userType;
+  final String? profilePicture;
 
   UserModel({
     this.id,
@@ -11,6 +12,7 @@ abstract class UserModel {
     required this.email,
     required this.password,
     required this.userType,
+    this.profilePicture,
   });
 
   Map<String, dynamic> toMap();
