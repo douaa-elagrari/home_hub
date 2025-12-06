@@ -28,4 +28,20 @@ class AgencyDBRepo {
       return [];
     }
   }
+
+  Future<bool> deleteAgency(int id) async {
+  try {
+    final db = await _db();
+    await db.delete(
+      'agency',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return true;
+  } catch (e) {
+    print("❌ Delete agency error: $e");
+    return false;
+  }
+}
+
 }

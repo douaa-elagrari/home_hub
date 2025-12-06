@@ -354,7 +354,6 @@ class SignupProCubit extends Cubit<SignupProState> {
           return;
         }
 
-        //  Append new agency instead of overwriting
         final agency = Agency(
           title: companyName,
           description: description ?? "",
@@ -362,11 +361,14 @@ class SignupProCubit extends Cubit<SignupProState> {
           phone: phone,
           image: "assets/images/baitna.png",
         );
-        agencies.add(agency); // append
+        agencies.add(agency);
         await _agencyRepo.insertAgency(agency);
 
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('logged_username', user.username);
+
+        //  Fixed
+        await prefs.setString('logged_username', companyName);
+
         await prefs.setString('logged_user_id', user.id.toString());
         await prefs.setString("phone", phone);
         await prefs.setString("location", location ?? "");

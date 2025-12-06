@@ -54,7 +54,7 @@ class DBHelper {
             print("Migration error (non-critical): $e");
           }
         }
-        
+
         if (oldVersion < 3) {
           // Create new freelancer table for job cards
           await db.execute(DatabaseConfig.createFreelancerTable);
@@ -63,5 +63,10 @@ class DBHelper {
     );
 
     return _database!;
+  }
+
+  static Future<int> deleteAgencyByTitle(String title) async {
+    final db = await getDatabase();
+    return await db.delete('agency', where: 'title = ?', whereArgs: [title]);
   }
 }

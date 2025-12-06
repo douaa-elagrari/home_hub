@@ -15,10 +15,10 @@ class UserDBRepo implements UserRepo {
   Future<bool> signup(UserModel user) async {
     try {
       final db = await _db();
-      
+
       // Convert UserModel to appropriate map based on type
       Map<String, dynamic> data;
-      
+
       if (user.userType == "freelancer") {
         FreelancerUserModel freelancer = user as FreelancerUserModel;
         data = {
@@ -48,7 +48,7 @@ class UserDBRepo implements UserRepo {
         // Normal user
         data = user.toMap();
       }
-      
+
       final id = await db.insert(table, data);
       return id > 0;
     } catch (e) {
@@ -114,7 +114,7 @@ class UserDBRepo implements UserRepo {
   @override
   UserModel _mapToUser(Map<String, dynamic> data) {
     final type = data["type"] ?? "normal";
-    
+
     switch (type) {
       case "company":
         return CompanyUserModel(
@@ -168,6 +168,21 @@ class UserDBRepo implements UserRepo {
     } catch (e) {
       print("❌ Get user by ID error: $e");
       return null;
+    }
+  }
+
+  Future<bool> deleteUsersByCompanyName(String companyName) async {
+    try {
+      final db = await DBHelper.getDatabase();
+      await db.delete(
+        'users',
+        where: 'name = ? AND type = ?',
+        whereArgs: [companyName, 'company'],
+      );
+      return true;
+    } catch (e) {
+      print("❌ Delete users by company error: $e");
+      return false;
     }
   }
 }
