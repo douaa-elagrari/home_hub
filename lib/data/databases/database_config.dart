@@ -19,7 +19,8 @@ class DatabaseConfig {
       bd TEXT,
       addr TEXT,
       profession TEXT,
-      city TEXT
+      city TEXT,
+      ProfilePicture TEXT
     )
   ''';
 
