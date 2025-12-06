@@ -4,6 +4,7 @@ class Pagethree extends StatelessWidget {
   const Pagethree({super.key});
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: GestureDetector(
         onHorizontalDragUpdate: (details) {
@@ -12,9 +13,8 @@ class Pagethree extends StatelessWidget {
           }
         },
         child: Mypage(
-          title: 'Grow Your Business ',
-          description:
-              'Get clients, and grow your professional\n reputation digitally.',
+          title: loc.growBusiness,
+          description: loc.growBusinessDesc,
           imagePath: 'assets/images/page1.png',
 
           circleone: false,
@@ -26,3 +26,4 @@ class Pagethree extends StatelessWidget {
     );
   }
 }
+
