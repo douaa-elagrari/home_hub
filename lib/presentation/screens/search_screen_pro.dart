@@ -23,6 +23,7 @@
 //   void initState() {
 //     super.initState();
 //     filteredList = services; // default category
+
 //   }
 
 //   // --------- SEARCH ---------
@@ -212,10 +213,10 @@
 //   }
 // }
 
-import 'package:homehub/presentation/widgets/custom_bottom_nav_pro.dart';
-import '../../utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:homehub/data/repositories/agency_repo.dart';
+import 'package:homehub/presentation/widgets/custom_bottom_nav_pro.dart';
+
+import '../../utils/utils.dart';
 
 class HomeScreenPro extends StatefulWidget {
   const HomeScreenPro({super.key});
@@ -228,27 +229,22 @@ class _HomeScreenState extends State<HomeScreenPro> {
   int _selectedIndex = 0;
 
   final TextEditingController _searchController = TextEditingController();
+
   String selectedCategory = "Services";
   String? selectedSubcategory;
 
   List<dynamic> filteredList = [];
+  List<Agency> agenciesList = [];
 
   @override
   void initState() {
     super.initState();
-    _loadAgenciesFromDB(); // ⬅️ NEW
-    filteredList = services; // default
+    filteredList = services; // default category
+    loadAgenciesFromDB();
   }
 
-  // -------- LOAD AGENCIES FROM SQLITE --------
-  Future<void> _loadAgenciesFromDB() async {
-    final repo = AgencyDBRepo();
-    agencies = await repo.getAllAgencies(); // refill global list
-
-    if (selectedCategory == "Agencies") {
-      filteredList = agencies;
-    }
-
+  Future<void> loadAgenciesFromDB() async {
+    agenciesList = await AgencyDBRepo().getAllAgencies();
     setState(() {});
   }
 
@@ -271,7 +267,7 @@ class _HomeScreenState extends State<HomeScreenPro> {
           )
           .toList();
     } else {
-      filteredList = agencies
+      filteredList = agenciesList
           .where(
             (a) =>
                 a.title.toLowerCase().contains(query.toLowerCase()) ||
@@ -301,7 +297,7 @@ class _HomeScreenState extends State<HomeScreenPro> {
         category == "وكالات" ||
         category == "Agences") {
       selectedCategory = "Agencies";
-      filteredList = agencies; // ⬅️ UPDATED
+      filteredList = agenciesList;
     } else {
       selectedCategory = "Services";
       filteredList = services;
@@ -340,7 +336,6 @@ class _HomeScreenState extends State<HomeScreenPro> {
   // --------HOME TAB --------
   Widget _buildHomeTab() {
     final loc = AppLocalizations.of(context)!;
-
     return SingleChildScrollView(
       child: Column(
         children: [

@@ -69,4 +69,10 @@ class DBHelper {
     final db = await getDatabase();
     return await db.delete('agency', where: 'title = ?', whereArgs: [title]);
   }
+  static Future<void> forceCreateServicesTable() async {
+    final db = await getDatabase();
+    await db.execute('DROP TABLE IF EXISTS services');
+    await db.execute(DatabaseConfig.createServicesTable);
+    print('🔄 Services table force-created');
+  }
 }

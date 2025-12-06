@@ -58,4 +58,15 @@ class DatabaseConfig {
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   ''';
+  static const String createServicesTable = '''
+    CREATE TABLE services(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      description TEXT,
+      username TEXT NOT NULL,
+      FOREIGN KEY (username) REFERENCES users(name)
+    )
+  ''';
+  
+  
 }

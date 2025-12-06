@@ -20,7 +20,7 @@ class Addnewservicepage extends StatelessWidget {
                 children: const [
                   Agencyidentification(),
                   SizedBox(height: 20),
-                  addNewservice(),
+                  AddNewService(),
                 ],
               ),
             ),

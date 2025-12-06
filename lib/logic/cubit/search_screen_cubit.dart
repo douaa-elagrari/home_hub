@@ -51,4 +51,3 @@ class HomeSearchCubit extends Cubit<List<dynamic>> {
   }
 }
 
-

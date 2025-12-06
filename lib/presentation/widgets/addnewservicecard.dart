@@ -1,121 +1,155 @@
 import 'package:flutter/material.dart';
-import '../widgets/imageaploadwidget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../logic/cubit/service_cubit.dart';
+import '../../logic/cubit/service_state.dart';
 
-class addNewservice extends StatefulWidget {
-  const addNewservice({super.key});
+class AddNewService extends StatefulWidget {
+  const AddNewService({super.key});
 
   @override
-  State<addNewservice> createState() => _addNewservice();
+  State<AddNewService> createState() => _AddNewServiceState();
 }
 
-class _addNewservice extends State<addNewservice> {
+class _AddNewServiceState extends State<AddNewService> {
+  final TextEditingController nameC = TextEditingController();
+  final TextEditingController descC = TextEditingController();
+
+  String? username;
+  bool _isAdding = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUser();
+  }
+
+  Future<void> loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString("logged_username");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 12,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.all(20),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(
-              child: Text(
-                "Add New Service",
-                style: TextStyle(
-                  color: Color(0xFF004E98),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
+    return BlocListener<ServiceCubit, ServiceState>(
+      listener: (context, state) {
+        if (state is ServiceError) {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Error: ${state.message}"),
+              backgroundColor: Colors.red,
             ),
-            const SizedBox(height: 20),
-
-            // Service Name Field
-            Text("add a service name"),
-            const SizedBox(height: 12),
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Service Name",
-                labelStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-                filled: true,
-                fillColor: Colors.grey.shade50,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
+          );
+          setState(() {
+            _isAdding = false;
+          });
+        } else if (state is ServiceLoaded) {
+          // Service added successfully, navigate back
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Service added successfully!"),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context); // Go back to previous page
+        }
+      },
+      child: Card(
+        color: Colors.white,
+        elevation: 12,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        margin: const EdgeInsets.all(20),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Text(
+                  "Add New Service",
+                  style: TextStyle(
                     color: Color(0xFF004E98),
-                    width: 1.5,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 14,
-                  horizontal: 12,
-                ),
               ),
-            ),
 
-            const SizedBox(height: 12),
+              const SizedBox(height: 20),
+              const Text("Service Name"),
+              TextField(controller: nameC),
 
-            // Description Field
-            Text("add an brief description"),
-            const SizedBox(height: 12),
-            TextField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: "Description",
-                labelStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-                filled: true,
-                fillColor: Colors.grey.shade50,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF004E98),
-                    width: 1.5,
+              const SizedBox(height: 20),
+              const Text("Description"),
+              TextField(controller: descC, maxLines: 3),
+
+              const SizedBox(height: 25),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: (username == null || _isAdding)
+                      ? null
+                      : () async {
+                          if (nameC.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Please enter service name"),
+                                backgroundColor: Colors.orange,
+                              ),
+                            );
+                            return;
+                          }
+
+                          setState(() {
+                            _isAdding = true;
+                          });
+
+                          try {
+                            await context.read<ServiceCubit>().addService(
+                              nameC.text.trim(),
+                              descC.text.trim(),
+                              username!,
+                            );
+                          } catch (e) {
+                            setState(() {
+                              _isAdding = false;
+                            });
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF004E98),
                   ),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 14,
-                  horizontal: 12,
-                ),
-              ),
-            ),
-
-            Text("add representative image"),
-            const SizedBox(height: 16),
-            const ImageUploadBox(),
-            const SizedBox(height: 20),
-            // Add Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF004E98),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-                child: const Text(
-                  "Add",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  child: _isAdding
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        )
+                      : const Text(
+                          "Add Service",
+                          style: TextStyle(color: Colors.white),
+                        ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameC.dispose();
+    descC.dispose();
+    super.dispose();
   }
 }

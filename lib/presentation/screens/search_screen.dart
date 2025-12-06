@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homehub/data/repositories/agency_repo.dart';
 import '../../utils/utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,11 +15,21 @@ class _HomeScreenState extends State<HomeScreen> {
   String selectedCategory = "Services";
   String? selectedSubcategory;
   List<dynamic> filteredList = [];
+  List<Agency> agenciesList = []; // hold agencies from DB
 
   @override
   void initState() {
     super.initState();
     _setCategory(selectedCategory); // initialize filtered list
+    loadAgenciesFromDB(); // load agencies from DB
+  }
+
+  Future<void> loadAgenciesFromDB() async {
+    agenciesList = await AgencyDBRepo().getAllAgencies();
+    if (selectedCategory == "Agencies") {
+      filteredList = agenciesList;
+    }
+    setState(() {});
   }
 
   void _filterSearch(String query) {
@@ -41,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
             .toList();
       } else {
-        filteredList = agencies
+        filteredList = agenciesList
             .where(
               (a) =>
                   a.title.toLowerCase().contains(query) ||
@@ -62,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (categoryText == "Products") {
         filteredList = products;
       } else {
-        filteredList = agencies;
+        filteredList = agenciesList;
       }
     });
   }
