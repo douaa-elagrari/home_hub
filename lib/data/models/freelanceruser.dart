@@ -2,12 +2,9 @@ import 'Baseuser.dart';
 
 class FreelancerUserModel extends UserModel {
   final String fullName;
-  final String birthDate;
-  final String address;
-  final String? phone;  
-
-  final String profession; 
-  final String city;     
+  final String? phone;
+  final String profession;
+  final String city;
 
   FreelancerUserModel({
     int? id,
@@ -15,33 +12,53 @@ class FreelancerUserModel extends UserModel {
     required String email,
     required String password,
     required this.fullName,
-    required this.birthDate,
-    required this.address,
     this.phone,
-    required this.profession,  
-    required this.city,  
+    required this.profession,
+    required this.city,
   }) : super(
-         id: id,
-         username: username,
-         email: email,
-         password: password,
-         userType: "freelancer",
-       );
+          id: id,
+          username: username,
+          email: email,
+          password: password,
+          userType: "freelancer",
+        );
 
-  @override
   Map<String, dynamic> toMap() {
     return {
-      // Don't include "id" - it's auto-increment
-      "type": userType, 
-      "name": username, 
+      "username": username,
       "email": email,
       "password": password,
-      "fname": fullName, 
-      "bd": birthDate, 
-      "addr": address, 
+      "fullName": fullName,
       "phone": phone,
-      "profession": profession, // NEW
-      "city": city,             // NEW
+      "profession": profession,
+      "city": city,
     };
+  }
+
+  factory FreelancerUserModel.fromMap(Map<String, dynamic> map) {
+    return FreelancerUserModel(
+      id: map['id'],
+      username: map['username'],
+      email: map['email'],
+      password: map['password'],
+      fullName: map['fullName'],
+      phone: map['phone'],
+      profession: map['profession'],
+      city: map['city'],
+    );
+  }
+
+  // Assign ID after insert
+  FreelancerUserModel copyWithId(int newId) {
+    return FreelancerUserModel(
+      id: newId,
+      username: username,
+      email: email,
+      password: password,
+      fullName: fullName,
+      phone: phone,
+      profession: profession,
+      city: city,
+    );
   }
 }

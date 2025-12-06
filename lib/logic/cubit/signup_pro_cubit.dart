@@ -209,9 +209,6 @@
 //   }
 // }
 
-
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homehub/data/repositories/agency_repo.dart';
 import 'package:homehub/utils/utils.dart';
@@ -266,22 +263,21 @@ class SignupProState {
     bool? submitted,
     bool? isSubmitting,
     String? error,
-  }) =>
-      SignupProState(
-        type: type ?? this.type,
-        name: name ?? this.name,
-        companyName: companyName ?? this.companyName,
-        phone: phone ?? this.phone,
-        email: email ?? this.email,
-        password: password ?? this.password,
-        confirmPassword: confirmPassword ?? this.confirmPassword,
-        vatNumber: vatNumber ?? this.vatNumber,
-        location: location ?? this.location,
-        description: description ?? this.description,
-        submitted: submitted ?? this.submitted,
-        isSubmitting: isSubmitting ?? this.isSubmitting,
-        error: error ?? this.error,
-      );
+  }) => SignupProState(
+    type: type ?? this.type,
+    name: name ?? this.name,
+    companyName: companyName ?? this.companyName,
+    phone: phone ?? this.phone,
+    email: email ?? this.email,
+    password: password ?? this.password,
+    confirmPassword: confirmPassword ?? this.confirmPassword,
+    vatNumber: vatNumber ?? this.vatNumber,
+    location: location ?? this.location,
+    description: description ?? this.description,
+    submitted: submitted ?? this.submitted,
+    isSubmitting: isSubmitting ?? this.isSubmitting,
+    error: error ?? this.error,
+  );
 }
 
 class SignupProCubit extends Cubit<SignupProState> {
@@ -358,13 +354,13 @@ class SignupProCubit extends Cubit<SignupProState> {
           return;
         }
 
-        // ✅ Append new agency instead of overwriting
+        //  Append new agency instead of overwriting
         final agency = Agency(
           title: companyName,
           description: description ?? "",
           location: location ?? "",
           phone: phone,
-          image: "assets/default_agency.png",
+          image: "assets/images/baitna.png",
         );
         agencies.add(agency); // append
         await _agencyRepo.insertAgency(agency);
@@ -377,18 +373,15 @@ class SignupProCubit extends Cubit<SignupProState> {
         await prefs.setString("description", description ?? "");
       } else {
         final user = FreelancerUserModel(
-  id: null,
-  username: name,
-  email: email,
-  password: password,
-  fullName: name,
-  birthDate: "",
-  address: "",          // you can use city here if you want
-  phone: phone,
-  profession: "Plumber", // replace with selected profession from UI
-  city: "Algiers",       // replace with selected city from UI
-);
-
+          id: null,
+          username: name,
+          email: email,
+          password: password,
+          fullName: name,
+          phone: phone,
+          profession: "Plumber", // replace with selected profession from UI
+          city: "Algiers", // replace with selected city from UI
+        );
 
         final success = await _repo.signup(user);
         if (!success) {

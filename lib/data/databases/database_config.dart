@@ -1,13 +1,13 @@
 class DatabaseConfig {
   static const String databaseName = "app.db";
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 3; // Increment to 3
 
-  // Users table
+  // Updated users table with freelancer columns
   static const String createUsersTable = '''
     CREATE TABLE users(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      email TEXT,
+      email TEXT UNIQUE,
       password TEXT,
       type TEXT,
       cname TEXT,
@@ -17,11 +17,12 @@ class DatabaseConfig {
       description TEXT,
       fname TEXT,
       bd TEXT,
-      addr TEXT
+      addr TEXT,
+      profession TEXT,
+      city TEXT
     )
   ''';
 
-  // Products table (keep yours)
   static const String createProductsTable = '''
     CREATE TABLE products(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +31,6 @@ class DatabaseConfig {
     )
   ''';
 
-  // Agencies table
   static const String createAgencyTable = '''
     CREATE TABLE agency(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,6 +39,23 @@ class DatabaseConfig {
       location TEXT,
       phone TEXT,
       image TEXT
+    )
+  ''';
+  
+  // NEW: Freelancer table for job cards
+  static const String createFreelancerTable = '''
+    CREATE TABLE freelancer(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER,
+      title TEXT,
+      name TEXT,
+      location TEXT,
+      phone TEXT,
+      image TEXT,
+      price TEXT,
+      profession TEXT,
+      rating REAL DEFAULT 0.0,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   ''';
 }

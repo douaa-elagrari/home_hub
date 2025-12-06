@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
+
 class JobCard extends StatefulWidget {
   final Professional professional;
 
@@ -46,23 +46,23 @@ class _JobCardState extends State<JobCard> {
                         children: [
                           Text(
                             widget.professional.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
                           Text(widget.professional.name),
-                          Text(
-                            widget.professional.price,
-                            style: const TextStyle(
-                              color: Color(0xFFFF6700),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          // Text(
+                          //   widget.professional.price,
+                          //   style: TextStyle(
+                          //     color: Color(0xFFFF6700),
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                           Row(
                             children: [
-                              const Icon(Icons.location_pin, size: 14),
-                              const SizedBox(width: 4),
+                              Icon(Icons.location_pin, size: 14),
+                              SizedBox(width: 4),
                               Text(widget.professional.location),
                             ],
                           ),
@@ -80,7 +80,7 @@ class _JobCardState extends State<JobCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Portfolio(),
+                              builder: (context) => Portfolio(),
                             ),
                           );
                         },
@@ -93,17 +93,15 @@ class _JobCardState extends State<JobCard> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(
-                          loc.details,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          loc.details, // <-- localized "Details"
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          // implement contact functionality
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF004E98),
                           foregroundColor: Colors.white,
@@ -113,8 +111,8 @@ class _JobCardState extends State<JobCard> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                         child: Text(
-                          loc.contact,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          loc.contact, // <-- localized "Contact"
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
